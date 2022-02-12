@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "348378176098",
+    "project_id": "bookforumwp",
+    "storage_bucket": "bookforumwp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:348378176098:android:cb46df58991b5d096b0f3b",
+        "android_client_info": {
+          "package_name": "com.example.book_forum"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "348378176098-4t064dg9bvkvr6imueqrmrlg7sg3esui.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2D813Mw_cYxyez-zx8t054PUsqP7GhMw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "348378176098-4t064dg9bvkvr6imueqrmrlg7sg3esui.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
