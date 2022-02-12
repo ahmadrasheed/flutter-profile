@@ -5,9 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+//this function should be written outside the class, it used to handle fcm when the device
+// is terminated or in background state
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print("Handling a background message: ${message.messageId}");
 }
+//https://github.com/sbis04/notify/blob/master/lib/main.dart
+//https://blog.logrocket.com/flutter-push-notifications-with-firebase-cloud-messaging/
+//https://www.youtube.com/watch?v=PpAoCXEnvvM
 
 void main() async {
   runApp(MyApp());
@@ -18,7 +23,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return OverlaySupport(
       child: MaterialApp(
-        title: 'Notify',
+        title: 'مؤسسة ملتقى الكتاب',
         theme: ThemeData(
           primarySwatch: Colors.deepPurple,
         ),
@@ -39,11 +44,12 @@ class _HomePageState extends State<HomePage> {
   late final FirebaseMessaging _messaging;
   late int _totalNotifications;
   PushNotification? _notificationInfo;
-  String _url = "https://pub.dev/packages/overlay_support";
+  String _url = "https://www.book-forum.org/";
 
   void registerNotification() async {
     await Firebase.initializeApp();
     _messaging = FirebaseMessaging.instance;
+    _messaging.subscribeToTopic('all');
 
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
@@ -79,14 +85,16 @@ class _HomePageState extends State<HomePage> {
           _totalNotifications++;
         });
 
+        //this is to show simple notification above the screen when the app is open
         if (_notificationInfo != null) {
+          print("kkkkkk if notificatino is not null show simpleNoti");
           // For displaying the notification as an overlay
           showSimpleNotification(
             Text(_notificationInfo!.title!),
             leading: NotificationBadge(totalNotifications: _totalNotifications),
             subtitle: Text(_notificationInfo!.body!),
-            background: Colors.cyan.shade700,
-            duration: Duration(seconds: 2),
+            background: Colors.grey.shade700,
+            duration: Duration(seconds: 5),
           );
         }
       });
@@ -111,8 +119,8 @@ class _HomePageState extends State<HomePage> {
 
       setState(() {
         _notificationInfo = notification;
-        _url = "https://www.youtube.com";
-        _controller.loadUrl("https://www.youtube.com/");
+        _url = "https://www.book-forum.org/";
+        _controller.loadUrl(_url);
         _totalNotifications++;
       });
     }
@@ -127,19 +135,20 @@ class _HomePageState extends State<HomePage> {
     // For handling notification when the app is in background
     // but not terminated
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-/*      PushNotification notification = PushNotification(
+      PushNotification notification = PushNotification(
         title: message.notification?.title,
         body: message.notification?.body,
         dataTitle: message.data['title'],
         dataBody: message.data['body'],
-      );*/
+      );
 
       setState(() {
-        //_notificationInfo = notification;
+        _notificationInfo = notification;
         print(
             "kkkkkkkkkk from onMessageOpened in initstate $message.data['url']");
         _controller.loadUrl(message.data['url']);
-        _url = "https://www.youtube.com";
+        print("kkkkkkk222222222" + message.data['url']);
+        //_url = "https://www.book-forum.org/";
         _totalNotifications++;
       });
     });
@@ -151,7 +160,8 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Notify'),
+        backgroundColor: Colors.brown.shade500,
+        title: Text('مؤسسة ملتقى الكتاب'),
         brightness: Brightness.dark,
       ),
       body: WebView(
