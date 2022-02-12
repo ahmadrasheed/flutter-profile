@@ -1,3 +1,6 @@
+import 'dart:ffi';
+
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:book_forum/screen1.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -28,7 +31,18 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.deepPurple,
         ),
         debugShowCheckedModeBanner: false,
-        home: HomePage(),
+        home: AnimatedSplashScreen(
+            splashIconSize: 300.0,
+            duration: 3000,
+            splash: Image.asset(
+              'assets/multaka0.png',
+              width: 400,
+              height: 400,
+            ),
+            nextScreen: HomePage(),
+            splashTransition: SplashTransition.slideTransition,
+            pageTransitionType: null,
+            backgroundColor: Colors.white),
       ),
     );
   }
